@@ -21,10 +21,10 @@ We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. 
 
 | Member | Role | Your files | You present |
 | --- | --- | --- | --- |
-| M1 | Data, charts 1–3, Word file | `R/00_*.R`, `R/01_fetch.R`, `R/02_daily.R`, `R/07_figures_m1.R`, `data/`, `docs/data_dictionary.md` | S2: when and how haze hits (1:30) |
-| M2 | Evidence | `R/03_inference.R`, `R/04_regression.R`, `R/07_figures_m2.R`, `tests/test_03_inference.R`, `tests/test_04_regression.R` | S3: is El Niño the driver, and how much worse? (2:00) |
-| M3 | Pricing | `R/05_simulate.R`, `R/06_sensitivity.R`, `R/07_figures_m3.R`, `tests/test_05_simulate.R`, `tests/test_06_sensitivity.R` | S4: pricing the refund (1:45) |
-| M4 | Story and production | No code. Script and slides in Google Docs and Slides. | S1: hook (1:00) and S5: close (1:00) |
+| M1 Kevin | Data, charts 1–3, Word file | `R/00_*.R`, `R/01_fetch.R`, `R/02_daily.R`, `R/07_figures_m1.R`, `data/`, `docs/data_dictionary.md` | S2: when and how haze hits (1:30) |
+| M2 Nott | Evidence | `R/03_inference.R`, `R/04_regression.R`, `R/07_figures_m2.R`, `tests/test_03_inference.R`, `tests/test_04_regression.R` | S3: is El Niño the driver, and how much worse? (2:00) |
+| M3 Ahmad | Pricing | `R/05_simulate.R`, `R/06_sensitivity.R`, `R/07_figures_m3.R`, `tests/test_05_simulate.R`, `tests/test_06_sensitivity.R` | S4: pricing the refund (1:45) |
+| M4 Jovan | Story and production | No code. Script and slides in Google Docs and Slides. | S1: hook (1:00) and S5: close (1:00) |
 
 ## One-time setup (about 20 minutes)
 
