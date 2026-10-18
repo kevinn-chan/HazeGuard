@@ -12,3 +12,8 @@ save_chart <- function(file, draw, title, subtitle = NULL) {
   if (!is.null(subtitle)) mtext(subtitle, 3, adj = 0, line = 0.8, cex = 0.9, col = PAL["ref"])
   invisible(file)
 }
+
+# "18 Oct 2026" on every computer: the month comes from month.abb, never from the system language (%b)
+fmt_date <- function(d) {
+  sprintf("%d %s %d", as.integer(format(d, "%d")), month.abb[as.integer(format(d, "%m"))], as.integer(format(d, "%Y")))
+}

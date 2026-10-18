@@ -9,4 +9,9 @@ if (file.exists("outputs/03_inference.csv")) {          # chart 3 and M2 must ag
   w <- read.csv("outputs/03_inference.csv"); w <- setNames(w$value, w$name)
   stopifnot(abs(num("p_hh") - w[["p_hh"]]) < 1e-9, abs(num("p_hc") - w[["p_hc"]]) < 1e-9)
 }
+# chart dates read the same on a computer set to another language
+source("R/00_style.R")
+old <- Sys.getlocale("LC_TIME"); suppressWarnings(Sys.setlocale("LC_TIME", "de_DE.UTF-8"))
+x <- fmt_date(as.Date("2026-10-18")); Sys.setlocale("LC_TIME", old)
+stopifnot(identical(x, "18 Oct 2026"))
 cat("OK test_07_figures_m1\n")

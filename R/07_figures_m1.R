@@ -5,7 +5,7 @@ h <- load_hourly()
 d <- load_daily()
 s <- load_season()
 dir.create("outputs/figures", showWarnings = FALSE, recursive = TRUE)
-src <- function(what) sprintf("%s. Source: NEA via data.gov.sg, to %s.", what, format(max(d$date), "%d %b %Y"))
+src <- function(what) sprintf("%s. Source: NEA via data.gov.sg, to %s.", what, fmt_date(max(d$date)))
 years <- sprintf("%d-%d", min(d$year), max(d$year))
 
 haze <- d$natmax > 100                                   # a haze day: any region-hour above 100
@@ -47,7 +47,7 @@ save_chart("outputs/figures/fig3_persistence.png", function() {
                ylab = "Chance the next morning is hazy (%)")
   text(b, pc, sprintf("%.0f%%", pc), pos = 3, font = 2, col = PAL["ref"])
 }, sprintf("A hazy morning is followed by another %d%% of the time; a clear one, %d%%", round(pc[1]), round(pc[2])),
-   src(sprintf("Hazy = Central 24-hour PSI above 100 at 08:00; Sep-Oct %s, %d pairs of consecutive days", years, nrow(pairs))))
+   src(sprintf("Hazy = Central 24-hr PSI above 100 at 08:00; Sep-Oct %s, %d day pairs", years, nrow(pairs))))
 
 numbers <- data.frame(
   name = c("hours_total", "relabelled_rows", "haze_days_all", "haze_days_sep_oct", "sep_oct_share",
