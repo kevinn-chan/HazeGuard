@@ -31,7 +31,7 @@ We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. 
 1. **Accept the GitHub invite** that M1 sends to your email. You need a free GitHub account.
 2. **Install R and RStudio** if you don't have them: https://posit.co/download/rstudio-desktop/
 3. **Install GitHub Desktop:** https://desktop.github.com. Sign in with your GitHub account.
-4. In GitHub Desktop: **File → Clone repository**, pick **kevinn-chan/AB1202-Haze**, and choose where to save it.
+4. In GitHub Desktop: **File → Clone repository**, pick **kevinn-chan/HazeGuard**, and choose where to save it.
 5. **Open the project** by double-clicking `AB1202-Haze.Rproj` in that folder. RStudio opens in the right folder, so every script finds its files. Always open the project this way.
 6. **Install the one extra package**, once. Type this in RStudio's Console:
 
@@ -47,7 +47,7 @@ We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. 
 
    It should end with `ALL OK`. If it doesn't, see Troubleshooting below.
 
-**Can't install R?** Use Posit Cloud (https://posit.cloud), which is RStudio in the browser. Choose New Project → New Project from Git Repository → `https://github.com/kevinn-chan/AB1202-Haze`. Ask M1 to help you set up pushing from there.
+**Can't install R?** Use Posit Cloud (https://posit.cloud), which is RStudio in the browser. Choose New Project → New Project from Git Repository → `https://github.com/kevinn-chan/HazeGuard`. Ask M1 to help you set up pushing from there.
 
 ## Every work session: five steps
 

@@ -339,7 +339,7 @@ Unless a step says otherwise, each step is done by the task's owner on their own
 
 ### Task 8: One-off team setup (M1, Mon 19 Oct)
 
-- [ ] **Step 1: Invite the team on GitHub.** In github.com/kevinn-chan/AB1202-Haze, go to Settings → Collaborators → Add people, and invite M2, M3 and M4.
+- [ ] **Step 1: Invite the team on GitHub.** In github.com/kevinn-chan/HazeGuard, go to Settings → Collaborators → Add people, and invite M2, M3 and M4. M3 has already accepted (they pushed Task 5); confirm M2 and M4.
 
   Expected: each invite shows "Pending" until accepted.
 - [ ] **Step 2: Set up the Drive folder.**
@@ -352,7 +352,7 @@ Unless a step says otherwise, each step is done by the task's owner on their own
 ### Task 9: One-time setup (M2 and M3, Mon 19 Oct)
 
 - [ ] **Step 1:** Install R and RStudio (posit.co/download/rstudio-desktop) and GitHub Desktop, then sign in.
-- [ ] **Step 2:** In GitHub Desktop, choose File → Clone repository → `kevinn-chan/AB1202-Haze`.
+- [ ] **Step 2:** In GitHub Desktop, choose File → Clone repository → `kevinn-chan/HazeGuard`.
 - [ ] **Step 3:** Open `AB1202-Haze.Rproj` and run `install.packages("jsonlite")` once.
 - [ ] **Step 4:** Run `source("R/run_all.R")`.
 
