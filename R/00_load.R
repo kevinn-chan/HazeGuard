@@ -4,3 +4,9 @@ TZ <- "Asia/Singapore"                               # every time in the project
 REG <- c("north", "south", "east", "west", "central")
 SEASON_MONTHS <- 9:10                                # Sep-Oct haze season
 TRIGGER <- 100                                       # refund triggers when Central 08:00 PSI > 100
+
+load_hourly <- function(path = "data/psi_hourly.csv") {
+  x <- read.csv(path, colClasses = c(time = "character", source = "character", flag = "character"))
+  x$time <- as.POSIXct(x$time, format = "%Y-%m-%d %H:%M", tz = TZ)
+  x
+}
