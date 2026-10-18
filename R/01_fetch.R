@@ -19,7 +19,7 @@ x <- x[c("time", REG, "natmax", "source", "flag")]
 
 out <- x
 out$time <- format(x$time, "%Y-%m-%d %H:%M")
-write.csv(out, "data/psi_hourly.csv", row.names = FALSE)
+write_lf(out, "data/psi_hourly.csv")
 
 grid <- seq(min(x$time), max(x$time), by = "hour")
 q <- data.frame(

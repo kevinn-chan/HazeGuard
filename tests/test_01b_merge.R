@@ -48,4 +48,7 @@ writeLines('{"code":4,"errorMsg":"rate limited"}', bad <- file.path(d, "bad.json
 writeLines("<html>busy</html>", page <- file.path(d, "page.csv"))
 stopifnot(!live_ok(bad), !live_ok(file.path(d, "none.json")), live_ok("data/raw/live/2026-10-17.json"),
           !hist_ok(page), hist_ok("data/raw/psi_hist.csv"))
+# data files are written with LF line endings on every computer (Windows text mode would add CR)
+f <- tempfile(fileext = ".csv"); write_lf(data.frame(a = 1:2, b = c("x", "y")), f)
+stopifnot(!any(readBin(f, "raw", file.size(f)) == as.raw(13)), identical(read.csv(f)$b, c("x", "y")))
 cat("OK test_01b_merge\n")

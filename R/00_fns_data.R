@@ -31,6 +31,14 @@ data_end <- function() if (is.na(DATA_END)) today_sgt() else DATA_END
 HIST_URL <- "https://api-open.data.gov.sg/v1/public/api/datasets/d_b4cf557f8750260d229c49fd768e11ed/poll-download"
 LIVE_URL <- "https://api-open.data.gov.sg/v2/real-time/api/psi?date="
 
+# Write a CSV with LF line endings on every computer: through a binary connection, Windows can't add
+# a CR to each line, so a teammate's run never shows M1's data files as changed in GitHub Desktop.
+write_lf <- function(x, path) {
+  con <- file(path, "wb")
+  on.exit(close(con))
+  write.csv(x, con, row.names = FALSE)
+}
+
 # A download is only kept if it looks right: an error message, a "busy" web page or a
 # truncated file never replaces saved data.
 live_ok <- function(path) {
