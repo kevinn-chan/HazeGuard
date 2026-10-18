@@ -1,0 +1,8 @@
+# Rebuild everything from the project root: Rscript R/run_all.R
+# Runs R/01_*.R ... R/07_*.R in name order (00_*.R are helpers they source), then every test.
+for (f in sort(list.files("R", "^0[1-7]_.*\\.R$", full.names = TRUE))) {
+  message("== ", f)
+  source(f, local = new.env())
+}
+for (f in sort(list.files("tests", "^test_.*\\.R$", full.names = TRUE))) source(f, local = new.env())
+cat("ALL OK\n")
