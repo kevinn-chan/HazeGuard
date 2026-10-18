@@ -24,7 +24,9 @@ read_hist <- function(path = "data/raw/psi_hist.csv") {
 # Freeze switch. Before the freeze the data runs up to today; afterwards it is
 # fixed so every rerun gives identical numbers.
 DATA_END <- as.Date(NA)   # set to as.Date("2026-10-31") at the 1 Nov freeze
-data_end <- function() if (is.na(DATA_END)) Sys.Date() else DATA_END
+# Calendar date in Singapore, whatever time zone the laptop is set to
+today_sgt <- function(now = Sys.time()) as.Date(format(now, "%Y-%m-%d", tz = TZ))
+data_end <- function() if (is.na(DATA_END)) today_sgt() else DATA_END
 
 HIST_URL <- "https://api-open.data.gov.sg/v1/public/api/datasets/d_b4cf557f8750260d229c49fd768e11ed/poll-download"
 LIVE_URL <- "https://api-open.data.gov.sg/v2/real-time/api/psi?date="
@@ -46,7 +48,7 @@ fetch_hist <- function(dest = "data/raw/psi_hist.csv", refresh = FALSE) {
 
 # A day's live file is fetched again if it is missing, unreadable, short of
 # 24 hourly readings, or is today (still filling up).
-needs_fetch <- function(path, date, today = Sys.Date()) {
+needs_fetch <- function(path, date, today = today_sgt()) {
   if (!file.exists(path) || date >= today) return(TRUE)
   n <- tryCatch(length(jsonlite::fromJSON(path)$data$items$timestamp), error = function(e) -1L)
   n < 24

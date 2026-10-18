@@ -39,4 +39,7 @@ stopifnot(needs_fetch(file.path(d, "a.json"), as.Date("2026-10-18"), today),    
           !needs_fetch(file.path(d, "b.json"), as.Date("2026-10-17"), today),     # complete past day
           needs_fetch(file.path(d, "b.json"), today, today),                      # today may be partial
           needs_fetch(file.path(d, "none.json"), as.Date("2026-10-17"), today))   # missing file
+# "today" is Singapore's date whatever the laptop's time zone
+stopifnot(today_sgt(as.POSIXct("2026-10-18 17:30", tz = "UTC")) == as.Date("2026-10-19"),
+          today_sgt(as.POSIXct("2026-10-18 15:59", tz = "UTC")) == as.Date("2026-10-18"))
 cat("OK test_01b_merge\n")
