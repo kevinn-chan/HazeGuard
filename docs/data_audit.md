@@ -33,7 +33,7 @@ AUDIT PASS
 | # | Check | What passing means |
 | --- | --- | --- |
 | 1 | History labels | Every label in the history file matches its row's position (first label + 1 hour per row), apart from exactly the 4 rows M1 relabels (data rows 16,956, 17,616, 35,640 and 38,355). |
-| 2 | Live files | Each day's file holds only that day's readings, and no hour appears twice with different values. |
+| 2 | Live files | Each day's file holds only that day's readings, and no hour appears twice with different values. A blank reading is dropped and its hour filled by the gap rule, as in R. |
 | 3 | Overlap | Where the history file and the live files share an hour, they agree. |
 | 4 | Hourly order | No hour is missing. A gap of 3 hours or less would be filled by straight-line interpolation, the documented gap rule; a longer gap fails. |
 | 5 | `psi_hourly.csv` | Every cell matches the rebuild, including `natmax`, `source` and `flag`. |

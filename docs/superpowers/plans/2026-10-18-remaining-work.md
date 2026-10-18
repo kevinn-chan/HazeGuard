@@ -32,7 +32,7 @@ Team: M1 Kevin, M2 Nott, M3 Ahmad, M4 Jovan.
 | Charts 1–3, `outputs/m1_numbers.csv` | M1 | Done; redrawn at the freeze |
 | Repo, README, RStudio project, starter files with hints for M2 and M3 | M1 | Done |
 | Google Doc: Haze Plan tab plus one guide per member | M1 | Done |
-| Data hardening (Part A, Tasks 1–7) | M1 | To do, Mon 19 – Tue 20 Oct |
+| Data hardening (Part A, Tasks 1–7) | M1 | Done 18 Oct, plus four fixes from a fresh review (see the M1 tab) |
 | GitHub invites and team Drive folder | M1 | To do, Mon 19 Oct |
 | Tasks 3–4 and chart 4 | M2 | Not started |
 | Task 5 (season simulation) | M3 | Done 18 Oct (`82a974f`). `ALL OK`; runs on the 18 Oct snapshot until M2's Task 3 exists. M1 reviews it in Task 16, Step 3 |
@@ -143,25 +143,25 @@ A separate Python rebuild shares no code with the R pipeline. Working only from 
    - Every returned hour must equal the history file.
    - At least half the days must return data.
 
-- [ ] **Step 1: Write the tool so it can fail.** Port the 18 Oct audit described above into `tools/audit_data.py`, with `--data` (default `data`) and `--api` (default 0).
-- [ ] **Step 2: Watch it catch a planted error.** Copy `data/` to a temporary folder, change the first `central8` value in its `psi_daily.csv` by 1, then run:
+- [x] **Step 1: Write the tool so it can fail.** Port the 18 Oct audit described above into `tools/audit_data.py`, with `--data` (default `data`) and `--api` (default 0).
+- [x] **Step 2: Watch it catch a planted error.** Copy `data/` to a temporary folder, change the first `central8` value in its `psi_daily.csv` by 1, then run:
 
   Run: `python3 tools/audit_data.py --data <tmp>`
   Expected: one `psi_daily` mismatch line, then `AUDIT FAIL: 1 problems`, with exit status 1.
-- [ ] **Step 3: Run it on the real data.**
+- [x] **Step 3: Run it on the real data.**
 
   Run: `python3 tools/audit_data.py --api 40`
   Expected:
   - 0 mismatches in checks 1–8, and 4 relabelled rows.
   - At least 20 API days compared, with 0 mismatches.
   - `AUDIT PASS`.
-- [ ] **Step 4: Write `docs/data_audit.md`.** Include:
+- [x] **Step 4: Write `docs/data_audit.md`.** Include:
   - The date and the data end.
   - The command.
   - The output of Step 3, pasted.
   - What the audit cannot catch: a value NEA itself published wrongly, and later NOAA revisions to the ONI.
   - When to rerun it: after every `--fetch` and at the freeze.
-- [ ] **Step 5: Commit.** `git add tools/audit_data.py docs/data_audit.md && git commit -m "M1: independent data audit tool and 18 Oct results"`
+- [x] **Step 5: Commit.** `git add tools/audit_data.py docs/data_audit.md && git commit -m "M1: independent data audit tool and 18 Oct results"`
 
 ### Task 2: "Today" is Singapore's date
 
@@ -173,7 +173,7 @@ A separate Python rebuild shares no code with the R pipeline. Working only from 
 - Produces: `today_sgt(now = Sys.time()) -> Date`, the calendar date in `Asia/Singapore` at `now`.
 - `data_end()` and the default `today` of `needs_fetch()` use it.
 
-- [ ] **Step 1: Append the failing test**
+- [x] **Step 1: Append the failing test**
 
 ```r
 # "today" is Singapore's date whatever the laptop's time zone
@@ -181,16 +181,16 @@ stopifnot(today_sgt(as.POSIXct("2026-10-18 17:30", tz = "UTC")) == as.Date("2026
           today_sgt(as.POSIXct("2026-10-18 15:59", tz = "UTC")) == as.Date("2026-10-18"))
 ```
 
-- [ ] **Step 2: Run it.**
+- [x] **Step 2: Run it.**
 
   Run: `Rscript R/run_all.R`
   Expected: FAIL with `could not find function "today_sgt"`.
-- [ ] **Step 3: Implement.** Add `today_sgt()` to `R/00_fns_data.R` as `as.Date(format(now, "%Y-%m-%d", tz = TZ))`. Replace `Sys.Date()` in `data_end()` and in `needs_fetch()`'s default with `today_sgt()`.
-- [ ] **Step 4: Run it.**
+- [x] **Step 3: Implement.** Add `today_sgt()` to `R/00_fns_data.R` as `as.Date(format(now, "%Y-%m-%d", tz = TZ))`. Replace `Sys.Date()` in `data_end()` and in `needs_fetch()`'s default with `today_sgt()`.
+- [x] **Step 4: Run it.**
 
   Run: `Rscript R/run_all.R`
   Expected: `ALL OK`.
-- [ ] **Step 5: Commit.** `git commit -am "M1: use Singapore's date for today, whatever the laptop's time zone"`
+- [x] **Step 5: Commit.** `git commit -am "M1: use Singapore's date for today, whatever the laptop's time zone"`
 
 ### Task 3: A failed download never replaces good data
 
@@ -209,7 +209,7 @@ stopifnot(today_sgt(as.POSIXct("2026-10-18 17:30", tz = "UTC")) == as.Date("2026
   - It has more than 100,000 lines.
 - `fetch_live()` and `fetch_hist()` check the `.part` file with these before `file.rename()`. If the check fails, they delete the `.part` file, keep the old file and report `FAIL`.
 
-- [ ] **Step 1: Append the failing test**
+- [x] **Step 1: Append the failing test**
 
 ```r
 # downloads are checked before they replace a file
@@ -220,16 +220,16 @@ stopifnot(!live_ok(bad), !live_ok(file.path(d, "none.json")), live_ok("data/raw/
           !hist_ok(page), hist_ok("data/raw/psi_hist.csv"))
 ```
 
-- [ ] **Step 2: Run it.**
+- [x] **Step 2: Run it.**
 
   Run: `Rscript R/run_all.R`
   Expected: FAIL with `could not find function "live_ok"`.
-- [ ] **Step 3: Implement** `live_ok()` and `hist_ok()`, and use them in both fetchers as described above.
-- [ ] **Step 4: Run it.**
+- [x] **Step 3: Implement** `live_ok()` and `hist_ok()`, and use them in both fetchers as described above.
+- [x] **Step 4: Run it.**
 
   Run: `Rscript R/run_all.R --fetch`
   Expected: today's file re-downloads (`ok (n)`) and the run ends with `ALL OK`.
-- [ ] **Step 5: Commit.** `git commit -am "M1: check downloads before they replace saved data"`
+- [x] **Step 5: Commit.** `git commit -am "M1: check downloads before they replace saved data"`
 
 ### Task 4: Chart text that looks the same on every computer
 
@@ -241,7 +241,7 @@ stopifnot(!live_ok(bad), !live_ok(file.path(d, "none.json")), live_ok("data/raw/
 - Produces: `fmt_date(d) -> character`, for example `"18 Oct 2026"`. It builds the month from `month.abb`, never from `%b`.
 - M1's `src()` uses it, and M2 and M3 may use it.
 
-- [ ] **Step 1: Append the failing test**
+- [x] **Step 1: Append the failing test**
 
 ```r
 source("R/00_style.R")
@@ -250,16 +250,16 @@ x <- fmt_date(as.Date("2026-10-18")); Sys.setlocale("LC_TIME", old)
 stopifnot(identical(x, "18 Oct 2026"))
 ```
 
-- [ ] **Step 2: Run it.**
+- [x] **Step 2: Run it.**
 
   Run: `Rscript R/run_all.R`
   Expected: FAIL with `could not find function "fmt_date"`.
-- [ ] **Step 3: Implement** `fmt_date()` in `R/00_style.R` and use it in `src()` in `R/07_figures_m1.R`. Shorten chart 3's subtitle to `sprintf("Hazy = Central 24-hr PSI above 100 at 08:00; Sep-Oct %s, %d day pairs", years, nrow(pairs))`.
-- [ ] **Step 4: Run it.**
+- [x] **Step 3: Implement** `fmt_date()` in `R/00_style.R` and use it in `src()` in `R/07_figures_m1.R`. Shorten chart 3's subtitle to `sprintf("Hazy = Central 24-hr PSI above 100 at 08:00; Sep-Oct %s, %d day pairs", years, nrow(pairs))`.
+- [x] **Step 4: Run it.**
 
   Run: `Rscript R/run_all.R`
   Expected: `ALL OK`. Then open `outputs/figures/fig3_persistence.png` and check that the subtitle ends at least 5% short of the right edge.
-- [ ] **Step 5: Commit.** `git commit -am "M1: English month names on charts; chart 3 subtitle fits"`
+- [x] **Step 5: Commit.** `git commit -am "M1: English month names on charts; chart 3 subtitle fits"`
 
 ### Task 5: The documents say exactly what the data is
 
@@ -269,29 +269,29 @@ stopifnot(identical(x, "18 Oct 2026"))
 - Modify: `docs/superpowers/plans/2026-10-18-price-the-haze.md`
 - Modify: `docs/superpowers/plans/2026-10-18-m1-data-pipeline.md`
 
-- [ ] **Step 1: Update the data dictionary.**
+- [x] **Step 1: Update the data dictionary.**
   - In the relabel table, rename the column `File row` to `Data row`.
   - Add one sentence under it: "The file's line number is one higher, because line 1 is the header."
   - Add a section `## Audit` that links `docs/data_audit.md` and gives the command `python3 tools/audit_data.py --api 40`.
-- [ ] **Step 2: Update the README.**
+- [x] **Step 2: Update the README.**
   - Status line: "Data audited 18 Oct: 0 mismatches; see docs/data_audit.md."
   - In "Where everything is", replace the row "Earlier drafts of the plan" with:
     - **Remaining-work plan (every task, every member):** `docs/superpowers/plans/2026-10-18-remaining-work.md`.
     - **Data audit:** `docs/data_audit.md`.
   - Under "For M1 only", add a line: "After every `--fetch`: `python3 tools/audit_data.py`."
-- [ ] **Step 3: Mark the old plans as replaced.** As the first line of each older plan, add: `> Superseded on 18 Oct 2026 by 2026-10-18-remaining-work.md. Kept for history.`
-- [ ] **Step 4: Check the dictionary still covers every column.**
+- [x] **Step 3: Mark the old plans as replaced.** As the first line of each older plan, add: `> Superseded on 18 Oct 2026 by 2026-10-18-remaining-work.md. Kept for history.`
+- [x] **Step 4: Check the dictionary still covers every column.**
 
   Run: `Rscript R/run_all.R`
   Expected: `ALL OK` (`test_02_daily` checks that the dictionary names every column).
-- [ ] **Step 5: Commit.** `git commit -am "M1: exact relabel wording, audit links, superseded plans"`
+- [x] **Step 5: Commit.** `git commit -am "M1: exact relabel wording, audit links, superseded plans"`
 
 ### Task 6: Same files on every computer
 
 **Files:**
 - Create: `.gitattributes`
 
-- [ ] **Step 1: Create `.gitattributes`**
+- [x] **Step 1: Create `.gitattributes`**
 
 ```
 * text=auto eol=lf
@@ -299,29 +299,29 @@ stopifnot(identical(x, "18 Oct 2026"))
 *.pdf binary
 ```
 
-- [ ] **Step 2: Renormalise.**
+- [x] **Step 2: Renormalise.**
 
   Run: `git add --renormalize . && git status --short`
   Expected: only `.gitattributes` is listed. Every file is already LF.
-- [ ] **Step 3: Simulate a Windows run.** Rewrite `data/psi_season.csv` with CRLF line endings, using Python, then:
+- [x] **Step 3: Simulate a Windows run.** Rewrite `data/psi_season.csv` with CRLF line endings, using Python, then:
 
   Run: `git status --short data/`
   Expected: nothing listed.
 
   If the file is listed, add a helper `write_lf(x, path)` to `R/00_fns_data.R` that writes through `file(path, "wb")`. Use it for the three `data/*.csv` writes in `R/01_fetch.R` and `R/02_daily.R`, and repeat this step until nothing is listed. Restore the file with `git checkout -- data/psi_season.csv`.
-- [ ] **Step 4: Commit.** `git add .gitattributes && git commit -m "M1: LF line endings on every computer"`
+- [x] **Step 4: Commit.** `git add .gitattributes && git commit -m "M1: LF line endings on every computer"`
 
 ### Task 7: Re-certify and publish
 
-- [ ] **Step 1: Run everything.**
+- [x] **Step 1: Run everything.**
 
   Run: `Rscript R/run_all.R && python3 tools/audit_data.py --api 40`
   Expected: `ALL OK`, then `AUDIT PASS`.
-- [ ] **Step 2: Push.**
+- [x] **Step 2: Push.**
 
   Run: `git push`
   Expected: `main -> main`.
-- [ ] **Step 3: Update the Google Doc.**
+- [x] **Step 3: Update the Google Doc.**
   - **M1 tab:** move Tasks 1–6 from "To do" to "Done".
   - **Haze Plan tab, Status board:** set the row "Data audit and hardening" to Done.
   - **Remaining work tab:** tick Part A.
