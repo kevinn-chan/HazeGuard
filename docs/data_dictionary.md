@@ -16,7 +16,7 @@ Always load through these functions rather than `read.csv`, so dates and true/fa
 
 - **Time zone.** Every time is Singapore time (SGT, `Asia/Singapore`). A reading's date is its calendar date in SGT; the 00:00 reading belongs to the day it is stamped with. Never call `as.Date()` on a time without `tz = "Asia/Singapore"`: R defaults to UTC and moves 00:00–07:59 readings to the previous day.
 - **PSI.** NEA's 24-hour Pollutant Standards Index, reported every hour for five regions. NEA's Unhealthy band starts at 101.
-- **Trigger.** The refund triggers on a day when the Central region's 24-hour PSI at 08:00 is above 100. If there is no 08:00 reading, the trigger is NA ("unknown"), never FALSE.
+- **Trigger.** The refund triggers on a day when the Central region's 24-hour PSI at 08:00 is above 100. If there is no 08:00 reading, the trigger is NA ("unknown"), never FALSE. An 08:00 hour filled in by the gap rule counts as no reading.
 - **Season.** September and October (`in_season`). About 90% of haze days since 2014 fall in these two months.
 - **Persistence pairs.** For p(haze | hazy yesterday) and p(haze | clear yesterday), use days that are `in_season`, are not 1 September, and have non-NA `trigger` and `trigger_prev`. M1's chart 3 and M2's analysis both use this rule, so their numbers match exactly.
 - **El Niño.** A year is an El Niño year when NOAA's June–August Oceanic Niño Index (`oni_jja`) is at least 0.5. As of Oct 2026 these are 2015, 2023 and 2026.

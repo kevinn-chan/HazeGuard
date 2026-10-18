@@ -51,4 +51,12 @@ stopifnot(!live_ok(bad), !live_ok(file.path(d, "none.json")), live_ok("data/raw/
 # data files are written with LF line endings on every computer (Windows text mode would add CR)
 f <- tempfile(fileext = ".csv"); write_lf(data.frame(a = 1:2, b = c("x", "y")), f)
 stopifnot(!any(readBin(f, "raw", file.size(f)) == as.raw(13)), identical(read.csv(f)$b, c("x", "y")))
+# ...and an unchanged file is left alone, even with CRLF endings from an older Windows checkout,
+# so GitHub Desktop never lists it as changed; a real change is still written, with LF
+x <- data.frame(a = 1:2, b = c("x", "y")); write_lf(x, f)
+writeChar(gsub("\n", "\r\n", readChar(f, file.size(f), useBytes = TRUE), fixed = TRUE), f, eos = NULL)
+before <- tools::md5sum(f); write_lf(x, f)
+stopifnot(unname(tools::md5sum(f) == before))
+write_lf(data.frame(a = 1:3, b = c("x", "y", "z")), f)
+stopifnot(!any(readBin(f, "raw", file.size(f)) == as.raw(13)), nrow(read.csv(f)) == 3, !file.exists(paste0(f, ".part")))
 cat("OK test_01b_merge\n")

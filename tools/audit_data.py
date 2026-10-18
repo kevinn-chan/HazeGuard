@@ -69,7 +69,7 @@ def main():
     report("1 history labels", bad, f"({len(rows):,} rows, {t0} to {t0 + (len(rows) - 1) * HOUR}, {len(off)} relabelled)")
 
     # 2. live files: date field = file name; no hour twice with different values
-    live, bad, files = {}, [], sorted(glob.glob(os.path.join(raw, "live", "*.json")))
+    live, bad, blank, files = {}, [], 0, sorted(glob.glob(os.path.join(raw, "live", "*.json")))
     for f in files:
         day = os.path.basename(f)[:10]
         for it in json.load(open(f))["data"]["items"]:
@@ -77,10 +77,12 @@ def main():
                 bad.append(f"{day}.json holds an item dated {it['date']}")
             t = datetime.fromisoformat(it["timestamp"]).replace(tzinfo=None)
             v = [it["readings"]["psi_twenty_four_hourly"].get(k) for k in REG]
+            if None in v:                         # a blank reading is dropped; the gap rule fills the hour
+                blank += 1; continue
             if t in live and live[t] != v:
                 bad.append(f"{t} differs between live files")
             live[t] = v
-    report("2 live files", bad, f"({len(files)} files, {len(live):,} hours)")
+    report("2 live files", bad, f"({len(files)} files, {len(live):,} hours" + (f", {blank} blank readings dropped)" if blank else ")"))
 
     # 3. overlap: history and live agree on every shared hour
     shared = sorted(set(hist) & set(live))
@@ -129,10 +131,13 @@ def main():
     days = {}
     for t in ts:
         days.setdefault(t.date(), []).append(t)
+    def central8(d):                              # a filled-in 08:00 hour is not a reading: NA trigger
+        t = datetime(d.year, d.month, d.day, 8)
+        return None if t not in merged or t in filled else merged[t][4]
     trig, nat = {}, {}
     for d in sorted(days):
-        c8 = merged.get(datetime(d.year, d.month, d.day, 8))
-        trig[d] = None if c8 is None else c8[4] > 100
+        c8 = central8(d)
+        trig[d] = None if c8 is None else c8 > 100
         nat[d] = max(max(merged[t]) for t in days[d])
     tf = lambda x: "NA" if x is None else str(x).upper()
     D = list(csv.DictReader(open(os.path.join(a.data, "psi_daily.csv"))))
@@ -141,8 +146,8 @@ def main():
         d = date.fromisoformat(r["date"])
         if d not in days:
             bad.append(f"psi_daily {d}: not in the raw data"); continue
-        c8 = merged.get(datetime(d.year, d.month, d.day, 8))
-        exp = dict(year=str(d.year), month=str(d.month), n_hours=str(len(days[d])), central8="NA" if c8 is None else str(c8[4]),
+        c8 = central8(d)
+        exp = dict(year=str(d.year), month=str(d.month), n_hours=str(len(days[d])), central8="NA" if c8 is None else str(c8),
                    natmax=str(nat[d]), trigger=tf(trig[d]), trigger_prev=tf(trig.get(d - timedelta(days=1))),
                    in_season=tf(d.month in (9, 10)), el_nino=tf(oni[d.year] >= 0.5))
         bad += [f"psi_daily {d} {k}: file {r[k]}, rebuilt {v}" for k, v in exp.items() if r[k] != v]

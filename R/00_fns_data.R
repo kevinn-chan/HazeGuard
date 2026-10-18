@@ -32,11 +32,17 @@ HIST_URL <- "https://api-open.data.gov.sg/v1/public/api/datasets/d_b4cf557f87502
 LIVE_URL <- "https://api-open.data.gov.sg/v2/real-time/api/psi?date="
 
 # Write a CSV with LF line endings on every computer: through a binary connection, Windows can't add
-# a CR to each line, so a teammate's run never shows M1's data files as changed in GitHub Desktop.
+# a CR to each line. A file whose content is unchanged (line endings aside) is left untouched, so a
+# teammate's run never shows M1's data files as changed in GitHub Desktop, whatever their checkout.
 write_lf <- function(x, path) {
-  con <- file(path, "wb")
-  on.exit(close(con))
+  part <- paste0(path, ".part")
+  con <- file(part, "wb")
   write.csv(x, con, row.names = FALSE)
+  close(con)
+  read_all <- function(f) readChar(f, file.size(f), useBytes = TRUE)
+  same <- file.exists(path) && identical(gsub("\r", "", read_all(path), fixed = TRUE), read_all(part))
+  if (same) unlink(part) else file.rename(part, path)
+  invisible(path)
 }
 
 # A download is only kept if it looks right: an error message, a "busy" web page or a
@@ -172,7 +178,7 @@ build_daily <- function(hourly, oni) {
   date <- as.Date(format(hourly$time, "%Y-%m-%d", tz = TZ))
   hour <- as.integer(format(hourly$time, "%H", tz = TZ))
   days <- sort(unique(date))
-  at8 <- hour == 8
+  at8 <- hour == 8 & hourly$flag != "interpolated"   # a filled-in 08:00 value is not a reading: NA trigger
   central8 <- hourly$central[at8][match(days, date[at8])]
   trigger <- central8 > TRIGGER
   year <- as.integer(format(days, "%Y"))

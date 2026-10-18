@@ -56,11 +56,11 @@ The audit therefore fails check 9 only when a difference could change a result:
 
 **What this means for 2026:** September and October 2026 come from the live API, because the history file stops at 1 Sep. That is the right source for the product: HazeGuard pays on the 08:00 reading NEA publishes live on event morning, which is exactly what the API serves. A later revised release could still move a few hours by a few PSI.
 
-Seven 2026 mornings sit within 5 PSI of the line:
+Eight 2026 mornings sit within 7 PSI of the line, the largest difference seen between NEA's two releases:
 - **Triggered:** 4 Sep (103), 10 Sep (105), 16 Sep (102), 4 Oct (102).
-- **Not triggered:** 11 Sep (96), 18 Sep (97), 3 Oct (97).
+- **Not triggered:** 7 Sep (94), 11 Sep (96), 18 Sep (97), 3 Oct (97).
 
-Mention this in the limits: against a revised release, 2026's 24 trigger days could read as 21 to 27.
+Mention this in the limits: against a revised release, 2026's 24 trigger days could read as anything from 20 to 28.
 
 ## What the audit cannot catch
 

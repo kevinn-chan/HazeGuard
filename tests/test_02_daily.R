@@ -20,6 +20,11 @@ stopifnot(
   s$days[s$year == 2015] == 61, s$trigger_days[s$year == 2015] == 27, s$bad_days[s$year == 2015] == 46,
   s$peak_natmax[s$year == 2015] == 322, s$bad_days[s$year == 2026] >= 31
 )
+# an interpolated 08:00 hour is not a reading: the trigger is NA, never set by a filled-in value
+source("R/00_fns_data.R")
+h2 <- load_hourly(); h2$flag[format(h2$time, "%Y-%m-%d %H:%M") == "2026-10-10 08:00"] <- "interpolated"
+k2 <- build_daily(h2, read_oni())[d$date == as.Date("2026-10-10"), ]
+stopifnot(is.na(k2$central8), is.na(k2$trigger))
 dict <- paste(readLines("docs/data_dictionary.md"), collapse = "\n")
 cols <- unique(c(names(d), names(s), names(load_hourly())))
 stopifnot(all(vapply(cols, function(n) grepl(paste0("`", n, "`"), dict, fixed = TRUE), logical(1))))
