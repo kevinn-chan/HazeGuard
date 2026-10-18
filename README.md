@@ -2,7 +2,7 @@
 
 We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. It refunds a S$105 ticket when the haze is unhealthy on event day. Our evidence is 12 years of NEA hourly PSI readings, analysed in R.
 
-**Status (18 Oct):** M1's clean data, charts 1–3 and starter files for M2 and M3 are ready. Your step-by-step instructions are in your own tab of the team Google Doc.
+**Status (18 Oct):** M1's clean data, charts 1–3 and starter files for M2 and M3 are ready. Your step-by-step instructions are in your own tab of the team Google Doc. Data audited 18 Oct: 0 mismatches; see [`docs/data_audit.md`](docs/data_audit.md).
 
 ## Where everything is
 
@@ -15,7 +15,8 @@ We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. 
 | Clean data | `data/` (M1 only) |
 | Charts and result files | `outputs/`, rebuilt on your own computer every time you run the project; not stored on GitHub |
 | Final charts for the video | Team Google Drive, folder `frozen_2026-11-01` (M1 uploads it on 1 Nov) |
-| Earlier drafts of the plan | `docs/superpowers/plans/` (the Google Doc replaces these) |
+| Remaining-work plan (every task, every member) | [`docs/superpowers/plans/2026-10-18-remaining-work.md`](docs/superpowers/plans/2026-10-18-remaining-work.md) |
+| Data audit | [`docs/data_audit.md`](docs/data_audit.md) |
 
 ## Team
 
@@ -116,5 +117,6 @@ Each task in the Google Doc comes with a short **test**: a few lines of R that c
 
 ## For M1 only
 
+- **After every `--fetch`:** run `python3 tools/audit_data.py`; it must end with `AUDIT PASS`.
 - **Download new readings:** in the Terminal, run `Rscript R/run_all.R --fetch`, then commit and push `data/`. Teammates' runs never download, so they never change `data/`.
 - **Freeze on Sun 1 Nov:** set `DATA_END <- as.Date("2026-10-31")` in `R/00_fns_data.R` and run `Rscript R/run_all.R --fetch` twice; `outputs/m1_numbers.csv` must come out identical both times. Then upload `outputs/` to the Drive as `frozen_2026-11-01`, commit, and push.

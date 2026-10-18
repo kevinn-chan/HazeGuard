@@ -53,7 +53,7 @@ A separate Python rebuild shares no code with the R pipeline. Working only from 
 | `data/psi_hourly.csv` | 110,003 rows and 110,003 independently rebuilt hours: 0 mismatched cells, including `natmax`, `source` and `flag` |
 | `data/psi_daily.csv` | 4,584 days: 0 mismatches across all 11 columns |
 | `data/psi_season.csv` | 13 seasons: 0 mismatches across all 9 columns |
-| NEA API against history file | Identical on every hour the API returned: 2016-08-27 (24 of 24), 2023-10-07 (11 of 11), 2026-08-31 (24 of 24) |
+| NEA API against history file | 40 random days (38 returned data, 837 hours): 816 identical; 21 differ by 1 to 7 PSI, all at 67 PSI or less, none crossing PSI 100. NEA's live feed and history file are two releases (see `docs/data_audit.md`) |
 | Repaired hours | 2018-04-25 00:00 matches the API exactly. The API doesn't serve the other three hours, but each sits within 2 PSI of both neighbours (typical hourly step 1, 99th percentile 5) |
 | Plausibility | Every value is between 5 and 322. The 8 largest hourly jumps (30 to 41) all fall at real haze onsets or clear-outs (Sep 2015, Mar 2017, Mar 2021) |
 | Headline facts | 2026 season: 48 days, 24 trigger days, 32 bad days, peak 230 on 18 Oct, first haze day 4 Sep. Charts' title numbers equal `m1_numbers.csv` |

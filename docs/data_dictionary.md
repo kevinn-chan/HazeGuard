@@ -70,12 +70,14 @@ Always load through these functions rather than `read.csv`, so dates and true/fa
 
 The data.gov.sg history file has exactly one row per hour, in order, but four rows carry a wrong timestamp label. Their true time comes from their position in the file, and they are flagged `relabelled`:
 
-| File row | Label in the file | True time | Central PSI |
+| Data row | Label in the file | True time | Central PSI |
 | --- | --- | --- | --- |
 | 16,956 | `7/3/2016 0:00` | 2016-03-07 12:00 | 42 |
 | 17,616 | `2016-04-04 010:00:00` | 2016-04-04 00:00 | 53 |
 | 35,640 | `24/4/2018 0:00` | 2018-04-25 00:00 | 64 |
 | 38,355 | `16/8/2018 2:00` | 2018-08-16 03:00 | 61 |
+
+The file's line number is one higher, because line 1 is the header.
 
 The history file and the live API share one hour (2026-09-01 00:00); the values match exactly. Where both sources have an hour, the history file is used.
 
@@ -86,6 +88,10 @@ Missing runs of 3 hours or fewer are filled by straight-line interpolation and f
 ## Freeze (`DATA_END`)
 
 `DATA_END` in `R/00_fns_data.R` is NA until the freeze, so the data runs up to today. On Sun 1 Nov M1 sets it to `2026-10-31`. From then on every rebuild stops at 31 Oct 23:00 and gives identical numbers.
+
+## Audit
+
+M1 checks this data independently with `python3 tools/audit_data.py --api 40`. It rebuilds every table from `data/raw/` without the R code, compares every cell, and spot-checks NEA's live API. On 18 Oct 2026 it found 0 mismatches. NEA's live feed and its history file are two releases that differ slightly on about 2.5% of hours (by 1 to 7 PSI in the sample, none near PSI 100). See [`docs/data_audit.md`](data_audit.md) for the full results and what they mean for 2026.
 
 ## Sources
 
