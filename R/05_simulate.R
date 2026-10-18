@@ -15,15 +15,49 @@ v <- if (file.exists("outputs/03_inference.csv")) {
 } else snapshot
 
 # Hints (uncomment and complete):
-# sim_season <- function(hh, hc, days = 61) {          # one season: TRUE = hazy morning
-#   s <- logical(days)
-#   s[1] <- runif(1) < hc / (1 - hh + hc)              # day 1 at the long-run haze rate
-#   for (t in 2:days) s[t] <- runif(1) < if (s[t - 1]) hh else hc
-#   s
-# }
-# stopifnot(all(sim_season(1, 1)), !any(sim_season(0, 0)))   # self-check
-# hits <- function(regime_prob, n = N) ...              # events hit per season, El Nino with prob regime_prob
-# normal <- hits(0); elnino <- hits(1); mixture <- hits(p_season_elnino); naive <- rbinom(N, length(ev), v[["p_all"]])
+sim_season <- function(hh, hc, days = 61) {          # one season: TRUE = hazy morning
+  s <- logical(days)
+  s[1] <- runif(1) < hc / (1 - hh + hc)              # day 1 at the long-run haze rate
+  for (t in 2:days) s[t] <- runif(1) < if (s[t - 1]) hh else hc
+  s
+}
+stopifnot(all(sim_season(1, 1)), !any(sim_season(0, 0)))   # self-check
+hits <- function(regime_prob, n = N) {
+  out <- numeric(n)
+  for (i in 1:n) {
+    if (runif(1) < regime_prob) {
+      hh <- v[["p_hh_elnino"]]
+      hc <- v[["p_hc_elnino"]]
+    } else {
+      hh <- v[["p_hh_normal"]]
+      hc <- v[["p_hc_normal"]]
+    }
+    season <- sim_season(hh, hc)
+    out[i] <- sum(season[ev])
+  }
+  out
+}             # events hit per season, El Nino with prob regime_prob
+normal <- hits(0); elnino <- hits(1); mixture <- hits(p_season_elnino); naive <- rbinom(N, length(ev), v[["p_all"]])
+summ <- function(x, name) {
+  q <- unname(quantile(x, .95, type = 1))
+  data.frame(scenario = name,
+             mean_hits = mean(x),
+             p_any = mean(x > 0),
+             p_ge3 = mean(x >= 3),
+             q95_hits = q,
+             fair_price = mean(x) * price / length(ev),
+             safe95_price = q * price / length(ev))
+}
+prices <- rbind(summ(normal, "normal"), summ(elnino, "elnino"),
+                summ(mixture, "mixture"), summ(naive, "naive"))
+prices
+dir.create("outputs", showWarnings = FALSE)
+write.csv(prices, "outputs/05_prices.csv", row.names = FALSE)
+markov <- mean(replicate(N, all(sim_season(v[["p_hh"]], v[["p_hc"]], 3))))
+iid <- v[["p_all"]]^3
+three <- data.frame(model = c("markov", "iid"), p_all3 = c(markov, iid))
+three
+write.csv(three, "outputs/05_threeday.csv", row.names = FALSE)
 # per scenario: mean_hits, p_any, p_ge3, q95_hits = quantile(x, .95, type = 1),
 #   fair_price = mean_hits * price / length(ev), safe95_price = q95_hits * price / length(ev)
 # three-day event: markov = mean(replicate(N, all(sim_season(v[["p_hh"]], v[["p_hc"]], 3)))), iid = v[["p_all"]]^3
