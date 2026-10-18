@@ -1,45 +1,120 @@
 # Price the Haze (AB1202 group project)
 
-We price a haze-refund add-on for outdoor-event tickets in Singapore, using 12 years of NEA hourly PSI readings. The R code builds clean data, runs the statistics, and draws the charts for our video.
+We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. It refunds a S$105 ticket when the haze is unhealthy on event day. Our evidence is 12 years of NEA hourly PSI readings, analysed in R.
 
-## Getting started
+**Status (18 Oct):** M1's clean data, charts 1–3 and starter files for M2 and M3 are ready. Your step-by-step instructions are in your own tab of the team Google Doc.
 
-1. Install **RStudio** (you already have R for AB1202) and **[GitHub Desktop](https://desktop.github.com)**.
-2. In GitHub Desktop: **File → Clone repository → AB1202-Haze**.
-3. In RStudio: **Session → Set Working Directory → Choose Directory**, and pick the `AB1202-Haze` folder. Every script expects to run from there.
-4. Load the data in the RStudio Console:
+## Where everything is
 
-```r
-source("R/00_load.R")
-d <- load_daily()    # one row per day
-s <- load_season()   # one row per Sep-Oct season
-```
+| What | Where |
+| --- | --- |
+| **The plan, with step-by-step instructions per person** | Team Google Doc: the "Haze Plan" tab, then your own tab ("M1: Data and charts", "M2: Evidence", "M3: Pricing" or "M4: Story and production"): https://docs.google.com/document/d/1aWyZUMwI_CczR3qzFoQfEQ_1AfBPCcipDg46SKkdT6o/edit |
+| What every data column means | [`docs/data_dictionary.md`](docs/data_dictionary.md) |
+| Code | `R/` (one file per task) |
+| Tests | `tests/` |
+| Clean data | `data/` (M1 only) |
+| Charts and result files | `outputs/`, rebuilt on your own computer every time you run the project; not stored on GitHub |
+| Final charts for the video | Team Google Drive, folder `frozen_2026-11-01` (M1 uploads it on 1 Nov) |
+| Earlier drafts of the plan | `docs/superpowers/plans/` (the Google Doc replaces these) |
 
-What every column means: [`docs/data_dictionary.md`](docs/data_dictionary.md). The full plans are in `docs/superpowers/plans/`, and the team's working copy is the Haze Plan tab of our Google Doc.
+## Team
+
+| Member | Role | Your files | You present |
+| --- | --- | --- | --- |
+| M1 | Data, charts 1–3, Word file | `R/00_*.R`, `R/01_fetch.R`, `R/02_daily.R`, `R/07_figures_m1.R`, `data/`, `docs/data_dictionary.md` | S2: when and how haze hits (1:30) |
+| M2 | Evidence | `R/03_inference.R`, `R/04_regression.R`, `R/07_figures_m2.R`, `tests/test_03_inference.R`, `tests/test_04_regression.R` | S3: is El Niño the driver, and how much worse? (2:00) |
+| M3 | Pricing | `R/05_simulate.R`, `R/06_sensitivity.R`, `R/07_figures_m3.R`, `tests/test_05_simulate.R`, `tests/test_06_sensitivity.R` | S4: pricing the refund (1:45) |
+| M4 | Story and production | No code. Script and slides in Google Docs and Slides. | S1: hook (1:00) and S5: close (1:00) |
+
+## One-time setup (about 20 minutes)
+
+1. **Accept the GitHub invite** that M1 sends to your email. You need a free GitHub account.
+2. **Install R and RStudio** if you don't have them: https://posit.co/download/rstudio-desktop/
+3. **Install GitHub Desktop:** https://desktop.github.com. Sign in with your GitHub account.
+4. In GitHub Desktop: **File → Clone repository**, pick **kevinn-chan/AB1202-Haze**, and choose where to save it.
+5. **Open the project** by double-clicking `AB1202-Haze.Rproj` in that folder. RStudio opens in the right folder, so every script finds its files. Always open the project this way.
+6. **Install the one extra package**, once. Type this in RStudio's Console:
+
+   ```r
+   install.packages("jsonlite")
+   ```
+
+7. **Run everything once**, also in the Console:
+
+   ```r
+   source("R/run_all.R")
+   ```
+
+   It should end with `ALL OK`. If it doesn't, see Troubleshooting below.
+
+**Can't install R?** Use Posit Cloud (https://posit.cloud), which is RStudio in the browser. Choose New Project → New Project from Git Repository → `https://github.com/kevinn-chan/AB1202-Haze`. Ask M1 to help you set up pushing from there.
+
+## Every work session: five steps
+
+1. **Pull** in GitHub Desktop (the "Fetch origin" or "Pull origin" button) to get your teammates' latest work.
+2. **Work** in your own files, in RStudio.
+3. **Run** `source("R/run_all.R")` in the Console. It must end with `ALL OK`.
+4. **Commit** in GitHub Desktop: tick only your own files, write a short message such as "M2: trigger rates and CIs", and click Commit.
+5. **Push** ("Push origin").
 
 ## The five rules
 
-1. **Edit only your own files.** Nobody shares a file, so nobody's work can clash.
+1. **Edit only your own files** (see the Team table). Nobody shares a file, so nobody's work can clash.
+2. **Push only when `run_all` ends with `ALL OK`.** If you're halfway through, commit without pushing. Your work stays safe on your laptop.
+3. **Everyone works on `main`.** No branches and no pull requests.
+4. **If a push is rejected, Pull and then Push again.** If GitHub Desktop mentions a "conflict", stop and message M1. Never delete files you don't own, and never use "force".
+5. **Keep this repo private.** Our work is checked for plagiarism, so a public copy could get us flagged.
 
-   | Member | Your files |
-   | --- | --- |
-   | M1 | `R/00_*.R`, `R/01_fetch.R`, `R/02_daily.R`, `R/07_figures_m1.R`, `data/`, `docs/data_dictionary.md` |
-   | M2 | `R/03_inference.R`, `R/04_regression.R`, `R/07_figures_m2.R`, and `tests/test_03_*`, `test_04_*`, `test_07_figures_m2.R` |
-   | M3 | `R/05_simulate.R`, `R/06_sensitivity.R`, `R/07_figures_m3.R`, and `tests/test_05_*`, `test_06_*`, `test_07_figures_m3.R` |
-   | M4 | No code. Script and slides live in Google Docs and Slides; M1 puts the final charts in the team Drive. |
+## Loading the data
 
-2. **The same five steps every session:**
-   1. **Pull** in GitHub Desktop.
-   2. Do your work.
-   3. In RStudio's **Terminal** tab, run `Rscript R/run_all.R`. It must end with `ALL OK`.
-   4. **Commit** in GitHub Desktop, with a short message saying what you changed.
-   5. **Push**.
-3. **Everyone works on `main`.** No branches, no pull requests.
-4. **If a push is rejected, Pull and then Push again.** If anything looks wrong, stop and message M1. Never delete files you don't own, and never use "force".
-5. **Keep this repo private.** Our work is checked for plagiarism, so a public copy could get us flagged. M1 invites members under **Settings → Collaborators**.
+```r
+source("R/00_load.R")
+d <- load_daily()    # one row per day, 1 Apr 2014 onwards
+s <- load_season()   # one row per Sep–Oct season, 2014–2026
+h <- load_hourly()   # one row per hour, if you need it
+```
+
+Always load the data this way rather than with `read.csv`, so dates and TRUE/FALSE columns come back as the right type. The most useful columns are:
+- `trigger`: would the refund pay out that day?
+- `trigger_prev`: did it pay out the day before?
+- `in_season`: is the day in September or October?
+- `el_nino`: is it an El Niño year?
+- `trigger_rate` and `bad_days`, per season, in `s`.
+
+## How the tests work
+
+Each task in the Google Doc comes with a short **test**: a few lines of R that check your results, such as "the El Niño trigger rate is about 30%".
+
+1. Paste your task's test into `tests/`.
+2. Run `source("R/run_all.R")`. Your test **fails**, because your code isn't written yet. That's expected.
+3. Fill in your starter file in `R/`, following the hints, until the test **passes**.
+4. Commit and push.
+
+`run_all` runs everyone's tests, so `ALL OK` means the whole project still fits together.
 
 ## Key dates
 
-- **Fri 23 Oct:** clean data ready (M1).
-- **Sun 1 Nov:** numbers frozen. After this, nobody changes data or analysis code.
-- **Sat 14 Nov, 8pm:** Word file submitted, ahead of the deadline on Sun 15 Nov at 1pm.
+| Date | What happens |
+| --- | --- |
+| Fri 23 Oct | Clean data handed over (M1, done early) |
+| Sun 1 Nov | **Numbers frozen.** After this, nobody changes data or analysis code |
+| Mon 2 – Sun 8 Nov | Script, slides and recording |
+| Mon 9 – Tue 10 Nov | No project work: Quiz 2 on Tue 10 Nov |
+| Sat 14 Nov, 8pm | Word file submitted (deadline Sun 15 Nov, 1pm) |
+
+## Troubleshooting
+
+| You see | Do this |
+| --- | --- |
+| `cannot open file 'R/00_load.R'` | RStudio is in the wrong folder. Close it and double-click `AB1202-Haze.Rproj`. |
+| `there is no package called 'jsonlite'` | Run `install.packages("jsonlite")` once. |
+| `could not find function "load_daily"` | Run `source("R/00_load.R")` first. |
+| A test you didn't write fails after you Pull | Tell that test's owner (the number in its name matches the Team table), and don't push until it's fixed. |
+| GitHub Desktop lists changes to files that aren't yours | Right-click them → Discard changes. Never commit someone else's files. |
+| Push rejected | Pull, then Push again. |
+| The word "conflict" appears anywhere | Stop and message M1. |
+
+## For M1 only
+
+- **Download new readings:** in the Terminal, run `Rscript R/run_all.R --fetch`, then commit and push `data/`. Teammates' runs never download, so they never change `data/`.
+- **Freeze on Sun 1 Nov:** set `DATA_END <- as.Date("2026-10-31")` in `R/00_fns_data.R` and run `Rscript R/run_all.R --fetch` twice; `outputs/m1_numbers.csv` must come out identical both times. Then upload `outputs/` to the Drive as `frozen_2026-11-01`, commit, and push.

@@ -24,6 +24,13 @@ short <- mk(0:3); short$time <- end - 3600 * (4:1)                 # ends 22:00
 full <- mk(0:3); full$time <- end - 3600 * (3:0)                   # ends 23:00
 stopifnot(inherits(try(check_coverage(short, end), silent = TRUE), "try-error"),
           isTRUE(check_coverage(full, end)))
+# coverage policy: an offline rebuild (teammates, no --fetch) never stops on older data;
+# a download must reach a day ago; after the freeze the data must reach DATA_END 23:00
+now <- as.POSIXct("2026-10-20 15:30", tz = TZ)
+stopifnot(is.na(coverage_target(fetch = FALSE, data_end = as.Date(NA), now = now)),
+          coverage_target(fetch = TRUE, data_end = as.Date(NA), now = now) == as.POSIXct("2026-10-19 15:00", tz = TZ),
+          coverage_target(fetch = FALSE, data_end = as.Date("2026-10-31"), now = now) ==
+            as.POSIXct("2026-10-31 23:00", tz = TZ))
 # refresh rule: partial or missing files are fetched again; complete past files are not
 d <- tempfile(); dir.create(d); j <- function(n) paste0('{"data":{"items":[', paste(rep('{"timestamp":"x"}', n), collapse = ","), ']}}')
 writeLines(j(3), file.path(d, "a.json")); writeLines(j(24), file.path(d, "b.json"))

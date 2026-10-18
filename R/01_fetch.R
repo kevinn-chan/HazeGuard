@@ -1,15 +1,19 @@
-# Build the gap-free hourly table and the data-quality report: Rscript R/01_fetch.R
+# Build the gap-free hourly table and the data-quality report from data/raw.
+# Only M1 downloads new readings: Rscript R/run_all.R --fetch
+# Everyone else rebuilds offline from the committed raw files, so nothing they run changes data/.
 source("R/00_fns_data.R")
-fetch_hist()
-fetch_live()
+FETCH <- "--fetch" %in% commandArgs(TRUE)
+if (FETCH) {
+  fetch_hist()
+  fetch_live()
+}
 h <- read_hist()
 l <- read_live()
 m <- merge_psi(h, l)
 x <- fill_gaps(m$data)
 if (!is.na(DATA_END)) x <- x[x$time <= as.POSIXct(paste(DATA_END, "23:00"), tz = TZ), ]
-need <- if (is.na(DATA_END)) as.POSIXct(trunc(Sys.time() - 86400, "hours")) else
-  as.POSIXct(paste(DATA_END, "23:00"), tz = TZ)
-check_coverage(x, need)
+need <- coverage_target(FETCH)
+if (!is.na(need)) check_coverage(x, need)
 x$natmax <- do.call(pmax, x[REG])
 x <- x[c("time", REG, "natmax", "source", "flag")]
 

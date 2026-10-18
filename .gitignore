@@ -1,0 +1,12 @@
+# R session files (personal; they cause pointless conflicts)
+.Rhistory
+.RData
+.Rproj.user/
+Rplots.pdf
+# Rebuilt by R/run_all.R on every computer. M1 puts the frozen copy in the team Drive on 1 Nov.
+outputs/
+# Half-finished downloads and macOS clutter
+*.part
+.DS_Store
+# Claude workflow scratch
+.superpowers/

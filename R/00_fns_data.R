@@ -185,3 +185,12 @@ check_coverage <- function(x, end) {
                  format(last, "%Y-%m-%d %H:%M"), format(end, "%Y-%m-%d %H:%M")))
   invisible(TRUE)
 }
+
+# How far the hourly table must reach before the build may continue:
+# after the freeze, DATA_END 23:00; when downloading (M1's --fetch), a day ago;
+# an offline rebuild (teammates) uses whatever raw data is committed, so no check.
+coverage_target <- function(fetch, data_end = DATA_END, now = Sys.time()) {
+  if (!is.na(data_end)) return(as.POSIXct(paste(data_end, "23:00"), tz = TZ))
+  if (fetch) return(as.POSIXct(trunc(now - 86400, "hours")))
+  as.POSIXct(NA)
+}
