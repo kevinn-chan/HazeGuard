@@ -7,6 +7,9 @@ l <- read_live()
 m <- merge_psi(h, l)
 x <- fill_gaps(m$data)
 if (!is.na(DATA_END)) x <- x[x$time <= as.POSIXct(paste(DATA_END, "23:00"), tz = TZ), ]
+need <- if (is.na(DATA_END)) as.POSIXct(trunc(Sys.time() - 86400, "hours")) else
+  as.POSIXct(paste(DATA_END, "23:00"), tz = TZ)
+check_coverage(x, need)
 x$natmax <- do.call(pmax, x[REG])
 x <- x[c("time", REG, "natmax", "source", "flag")]
 

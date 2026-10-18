@@ -174,3 +174,14 @@ build_season <- function(daily) {
   rownames(out) <- NULL
   out
 }
+
+# The table must reach `end` (31 Oct 23:00 after the freeze; a day ago before it).
+# fill_gaps only sees gaps between readings it has, so a failed or partial last
+# download would otherwise pass as a complete table.
+check_coverage <- function(x, end) {
+  last <- max(x$time)
+  if (last < end)
+    stop(sprintf("data ends at %s but must reach %s: a download failed or is still partial",
+                 format(last, "%Y-%m-%d %H:%M"), format(end, "%Y-%m-%d %H:%M")))
+  invisible(TRUE)
+}

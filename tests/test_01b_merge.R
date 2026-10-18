@@ -17,6 +17,13 @@ mk <- function(h) data.frame(time = t0 + 3600 * h, north = h * 10L, south = h * 
 f <- fill_gaps(mk(c(0, 1, 4, 5)))
 stopifnot(nrow(f) == 6, f$central[f$time == t0 + 7200] == 20, sum(f$flag == "interpolated") == 2)
 stopifnot(inherits(try(fill_gaps(mk(c(0, 5))), silent = TRUE), "try-error"))
+# coverage rule: data that stops short of the required end hour (a failed or partial last
+# download) stops the build instead of passing as complete
+end <- as.POSIXct("2026-10-31 23:00", tz = TZ)
+short <- mk(0:3); short$time <- end - 3600 * (4:1)                 # ends 22:00
+full <- mk(0:3); full$time <- end - 3600 * (3:0)                   # ends 23:00
+stopifnot(inherits(try(check_coverage(short, end), silent = TRUE), "try-error"),
+          isTRUE(check_coverage(full, end)))
 # refresh rule: partial or missing files are fetched again; complete past files are not
 d <- tempfile(); dir.create(d); j <- function(n) paste0('{"data":{"items":[', paste(rep('{"timestamp":"x"}', n), collapse = ","), ']}}')
 writeLines(j(3), file.path(d, "a.json")); writeLines(j(24), file.path(d, "b.json"))
