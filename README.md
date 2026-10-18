@@ -14,7 +14,7 @@ We price **HazeGuard**, a refund add-on for outdoor-event tickets in Singapore. 
 | Tests | `tests/` |
 | Clean data | `data/` (M1 only) |
 | Charts and result files | `outputs/`, rebuilt on your own computer every time you run the project; not stored on GitHub |
-| Final charts for the video | Team Google Drive, folder `frozen_2026-11-01` (M1 uploads it on 1 Nov) |
+| Charts on Google Drive | Team folder [AB1202 HazeGuard](https://drive.google.com/drive/folders/1BVvoN9x4SxDyOyJOvOeVas509vD2_g__): draft charts in [`drafts`](https://drive.google.com/drive/folders/1ksPBGPHWnygvcpJTx79dlhZAE3H811Qz) now; the final charts and numbers in [`frozen_2026-11-01`](https://drive.google.com/drive/folders/1ing6ukraHHgh3Pca77snjEGpRDZp3aZa), which M1 uploads on 1 Nov |
 | Remaining-work plan (every task, every member) | [`docs/superpowers/plans/2026-10-18-remaining-work.md`](docs/superpowers/plans/2026-10-18-remaining-work.md) |
 | Data audit | [`docs/data_audit.md`](docs/data_audit.md) |
 

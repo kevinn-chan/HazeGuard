@@ -343,7 +343,7 @@ Unless a step says otherwise, each step is done by the task's owner on their own
 
   Expected: each invite shows "Pending" until accepted.
 - [ ] **Step 2: Set up the Drive folder.**
-  - Create the Drive folder `Price the Haze`, with subfolders `drafts` and `frozen_2026-11-01`.
+  - Create the Drive folder, with subfolders `drafts` and `frozen_2026-11-01`. Done 18 Oct: [AB1202 HazeGuard](https://drive.google.com/drive/folders/1BVvoN9x4SxDyOyJOvOeVas509vD2_g__).
   - Share it with all members as Editor.
   - Upload `outputs/figures/fig1_timeline.png`, `fig2_months.png` and `fig3_persistence.png` to `drafts`.
 - [ ] **Step 3: Share the Google Doc** with all members as Editor. Post the doc link and the repo link in the group chat, and tell everyone to open their own tab.
