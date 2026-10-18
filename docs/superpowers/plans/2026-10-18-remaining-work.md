@@ -342,7 +342,7 @@ Unless a step says otherwise, each step is done by the task's owner on their own
 - [ ] **Step 1: Invite the team on GitHub.** In github.com/kevinn-chan/HazeGuard, go to Settings → Collaborators → Add people, and invite M2, M3 and M4. M3 has already accepted (they pushed Task 5); confirm M2 and M4.
 
   Expected: each invite shows "Pending" until accepted.
-- [ ] **Step 2: Set up the Drive folder.**
+- [x] **Step 2: Set up the Drive folder.** Done 18 Oct: draft charts 1–3 are in `drafts`; anyone with the link can edit.
   - Create the Drive folder, with subfolders `drafts` and `frozen_2026-11-01`. Done 18 Oct: [AB1202 HazeGuard](https://drive.google.com/drive/folders/1BVvoN9x4SxDyOyJOvOeVas509vD2_g__).
   - Share it with all members as Editor.
   - Upload `outputs/figures/fig1_timeline.png`, `fig2_months.png` and `fig3_persistence.png` to `drafts`.
