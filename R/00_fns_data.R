@@ -31,6 +31,19 @@ data_end <- function() if (is.na(DATA_END)) today_sgt() else DATA_END
 HIST_URL <- "https://api-open.data.gov.sg/v1/public/api/datasets/d_b4cf557f8750260d229c49fd768e11ed/poll-download"
 LIVE_URL <- "https://api-open.data.gov.sg/v2/real-time/api/psi?date="
 
+# A download is only kept if it looks right: an error message, a "busy" web page or a
+# truncated file never replaces saved data.
+live_ok <- function(path) {
+  items <- tryCatch(jsonlite::fromJSON(path, simplifyVector = FALSE)$data$items, error = function(e) NULL)
+  length(items) > 0 &&
+    all(vapply(items, function(it) all(REG %in% names(it$readings$psi_twenty_four_hourly)), logical(1)))
+}
+hist_ok <- function(path) {
+  file.exists(path) &&
+    identical(readLines(path, n = 1, warn = FALSE), "24hr_psi,north,south,east,west,central") &&
+    length(readLines(path, warn = FALSE)) > 100000
+}
+
 # Download the history CSV once; the saved snapshot is reused unless refresh = TRUE.
 fetch_hist <- function(dest = "data/raw/psi_hist.csv", refresh = FALSE) {
   if (file.exists(dest) && !refresh) return(invisible(dest))
@@ -42,6 +55,11 @@ fetch_hist <- function(dest = "data/raw/psi_hist.csv", refresh = FALSE) {
   }
   part <- paste0(dest, ".part")                     # same folder, so the rename is atomic
   download.file(r$data$url, part, quiet = TRUE, mode = "wb")
+  if (!hist_ok(part)) {
+    unlink(part)
+    message("history download FAIL: not a PSI file, so the saved copy is kept")
+    return(invisible(dest))
+  }
   file.rename(part, dest)
   invisible(dest)
 }
@@ -68,7 +86,7 @@ fetch_live <- function(from = as.Date("2026-09-01"), to = data_end(), dir = "dat
       if (ok) break
       Sys.sleep(10)
     }
-    if (ok) {
+    if (ok && live_ok(part)) {
       file.rename(part, path)
       message(format(d), " ok (", length(jsonlite::fromJSON(path)$data$items$timestamp), ")")
     } else {

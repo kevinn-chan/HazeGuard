@@ -42,4 +42,10 @@ stopifnot(needs_fetch(file.path(d, "a.json"), as.Date("2026-10-18"), today),    
 # "today" is Singapore's date whatever the laptop's time zone
 stopifnot(today_sgt(as.POSIXct("2026-10-18 17:30", tz = "UTC")) == as.Date("2026-10-19"),
           today_sgt(as.POSIXct("2026-10-18 15:59", tz = "UTC")) == as.Date("2026-10-18"))
+# downloads are checked before they replace a file
+d <- tempfile(); dir.create(d)
+writeLines('{"code":4,"errorMsg":"rate limited"}', bad <- file.path(d, "bad.json"))
+writeLines("<html>busy</html>", page <- file.path(d, "page.csv"))
+stopifnot(!live_ok(bad), !live_ok(file.path(d, "none.json")), live_ok("data/raw/live/2026-10-17.json"),
+          !hist_ok(page), hist_ok("data/raw/psi_hist.csv"))
 cat("OK test_01b_merge\n")
