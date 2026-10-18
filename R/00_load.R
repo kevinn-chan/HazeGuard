@@ -10,3 +10,15 @@ load_hourly <- function(path = "data/psi_hourly.csv") {
   x$time <- as.POSIXct(x$time, format = "%Y-%m-%d %H:%M", tz = TZ)
   x
 }
+
+load_daily <- function(path = "data/psi_daily.csv") {
+  d <- read.csv(path)
+  d$date <- as.Date(d$date)
+  d
+}
+
+load_season <- function(path = "data/psi_season.csv") {
+  s <- read.csv(path)
+  s$peak_date <- as.Date(s$peak_date)
+  s
+}

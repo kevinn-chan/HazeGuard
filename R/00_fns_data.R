@@ -128,3 +128,49 @@ fill_gaps <- function(x, max_gap = 3L) {
   rownames(x) <- NULL
   x
 }
+
+ONI_URL <- "https://www.cpc.ncep.noaa.gov/data/indices/oni.ascii.txt"
+
+# NOAA's Oceanic Nino Index; the June-August value is published by early September.
+read_oni <- function(path = "data/raw/oni.txt") {
+  o <- read.table(path, header = TRUE)
+  o <- o[o$SEAS == "JJA", ]
+  data.frame(year = as.integer(o$YR), oni_jja = o$ANOM)
+}
+
+# One row per SGT calendar day. Dates come from the formatted SGT time, never
+# as.Date() on a POSIXct (which would use UTC and shift 00:00-07:59 back a day).
+build_daily <- function(hourly, oni) {
+  date <- as.Date(format(hourly$time, "%Y-%m-%d", tz = TZ))
+  hour <- as.integer(format(hourly$time, "%H", tz = TZ))
+  days <- sort(unique(date))
+  at8 <- hour == 8
+  central8 <- hourly$central[at8][match(days, date[at8])]
+  trigger <- central8 > TRIGGER
+  year <- as.integer(format(days, "%Y"))
+  month <- as.integer(format(days, "%m"))
+  oni_jja <- oni$oni_jja[match(year, oni$year)]
+  data.frame(date = days, year = year, month = month,
+             n_hours = tabulate(match(date, days), length(days)),
+             central8 = central8,
+             natmax = as.integer(tapply(hourly$natmax, date, max)[format(days)]),
+             trigger = trigger,
+             trigger_prev = trigger[match(days - 1, days)],
+             in_season = month %in% SEASON_MONTHS,
+             oni_jja = oni_jja, el_nino = oni_jja >= 0.5)
+}
+
+# One row per year, Sep-Oct only. A "bad day" is any region-hour above 100
+# (NEA's Unhealthy band starts at 101), the HazeShield definition.
+build_season <- function(daily) {
+  s <- daily[daily$in_season, ]
+  out <- do.call(rbind, lapply(split(s, s$year), function(z) {
+    k <- which.max(z$natmax)
+    data.frame(year = z$year[1], oni_jja = z$oni_jja[1], el_nino = z$el_nino[1],
+               days = sum(!is.na(z$trigger)), trigger_days = sum(z$trigger, na.rm = TRUE),
+               trigger_rate = mean(z$trigger, na.rm = TRUE), bad_days = sum(z$natmax > 100),
+               peak_natmax = z$natmax[k], peak_date = z$date[k])
+  }))
+  rownames(out) <- NULL
+  out
+}
