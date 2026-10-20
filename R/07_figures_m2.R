@@ -21,4 +21,3 @@ save_chart("outputs/figures/fig4_elnino.png", function() {
 }, sprintf("El Nino seasons triggered on %.0f%% of days; other seasons on %.1f%%",
            100 * v[["p_elnino"]], 100 * v[["p_normal"]]),
 "One dot per season. Source: NEA via data.gov.sg; NOAA CPC.")
-source("R/07_figures_m2.R")
