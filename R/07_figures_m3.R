@@ -29,8 +29,9 @@ save_chart("outputs/figures/fig5_prices.png", function() {
   legend(x = par("usr")[1], y = 100, legend = c("Fair price", "Safe price (95%)"), 
          fill = c(PAL[["accent"]], PAL[["data"]]), bty = "n", border = NA)
   
-  # Add values on top of each bar
-  text(x = b, y = mat + 3, labels = sprintf("S$%.0f", mat), cex = 0.8)
+  # Add values on top of each bar, to the cent with halves rounded up
+  # (sprintf alone shows 52.5 as 52 and 13.125 as 13.12)
+  text(x = b, y = mat + 3, labels = sprintf("S$%.2f", floor(100 * mat + 0.5) / 100), cex = 0.8)
   
 }, sprintf("A haze refund costs about S$%.0f a ticket normally and S$%.0f in an El Nino year", 
            p$fair_price[p$scenario == "normal"], 
