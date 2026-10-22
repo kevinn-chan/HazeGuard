@@ -1,6 +1,6 @@
 # tests/test_07_figures_m2.R
-# Size check lowered from 20000 to 5000 bytes: chart 4 is a simple 13-dot scatter that
-# compresses small. 5 KB still catches a blank or broken image.
+# 10 KB: real charts are 18 KB or more on every computer we use (Windows saves smaller PNGs than
+# a Mac); a blank or error-only image is under 7 KB.
 f <- "outputs/figures/fig4_elnino.png"
-stopifnot(file.exists(f), file.size(f) > 5000)
+stopifnot(file.exists(f), file.size(f) > 10000)
 cat("OK test_07_figures_m2\n")
