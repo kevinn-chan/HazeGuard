@@ -487,7 +487,7 @@ cat("OK test_04_regression\n")
 ```r
 # tests/test_07_figures_m2.R
 f <- "outputs/figures/fig4_elnino.png"
-stopifnot(file.exists(f), file.size(f) > 20000)
+stopifnot(file.exists(f), file.size(f) > 10000)
 cat("OK test_07_figures_m2\n")
 ```
 
@@ -620,7 +620,7 @@ cat("OK test_06_sensitivity\n")
 ```r
 # tests/test_07_figures_m3.R
 f <- "outputs/figures/fig5_prices.png"
-stopifnot(file.exists(f), file.size(f) > 20000)
+stopifnot(file.exists(f), file.size(f) > 10000)
 cat("OK test_07_figures_m3\n")
 ```
 

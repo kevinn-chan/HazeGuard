@@ -2,7 +2,9 @@
 f <- file.path("outputs/figures", c("fig1_timeline.png", "fig2_months.png", "fig3_persistence.png"))
 n <- read.csv("outputs/m1_numbers.csv", stringsAsFactors = FALSE); v <- setNames(n$value, n$name)
 num <- function(k) as.numeric(v[[k]])
-stopifnot(all(file.exists(f)), all(file.size(f) > 20000),
+# 10 KB: real charts are 18 KB or more on every computer we use (Windows saves smaller PNGs than
+# a Mac); a blank or error-only image is under 7 KB. Chart content is checked by the numbers tests.
+stopifnot(all(file.exists(f)), all(file.size(f) > 10000),
           abs(num("sep_oct_share") - 89.8) < 3, num("bad_days_2015") == 46,
           abs(num("p_hh") - 0.64) < 0.08, abs(num("p_hc") - 0.03) < 0.015, num("relabelled_rows") == 4)
 if (file.exists("outputs/03_inference.csv")) {          # chart 3 and M2 must agree exactly
