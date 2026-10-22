@@ -13,6 +13,7 @@ dir.create("outputs/figures", showWarnings = FALSE, recursive = TRUE)
 save_chart("outputs/figures/fig4_elnino.png", function() {
   plot(s$oni_jja, 100 * s$trigger_rate, pch = 16,
        col = ifelse(s$el_nino, PAL["accent"], PAL["data"]),
+       ylim = c(0, 55),
        xlab = "NOAA El Nino index, Jun-Aug", ylab = "Sep-Oct days the refund triggers (%)")
   # Label only the El Nino seasons, so the labels don't pile up near zero
   text(s$oni_jja[s$el_nino], 100 * s$trigger_rate[s$el_nino], s$year[s$el_nino],
