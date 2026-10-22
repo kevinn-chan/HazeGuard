@@ -27,7 +27,7 @@ write.csv(
   "outputs/06_sensitivity.csv",
   row.names = FALSE
 )
-HazeShield: bad days per season are already in s$bad_days
+#HazeShield: bad days per season are already in s$bad_days
 payout_pct <- c(0, 20, 40, 60, 80, 100)[findInterval(s$bad_days, c(0, 20, 25, 30, 35, 40))]
 write.csv(
   data.frame(year = s$year, bad_days = s$bad_days, payout_pct = payout_pct),
