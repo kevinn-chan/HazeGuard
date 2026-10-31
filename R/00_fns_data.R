@@ -23,7 +23,7 @@ read_hist <- function(path = "data/raw/psi_hist.csv") {
 
 # Freeze switch. Before the freeze the data runs up to today; afterwards it is
 # fixed so every rerun gives identical numbers.
-DATA_END <- as.Date(NA)   # set to as.Date("2026-10-31") at the 1 Nov freeze
+DATA_END <- as.Date("2026-10-31")   # frozen 1 Nov 2026
 # Calendar date in Singapore, whatever time zone the laptop is set to
 today_sgt <- function(now = Sys.time()) as.Date(format(now, "%Y-%m-%d", tz = TZ))
 data_end <- function() if (is.na(DATA_END)) today_sgt() else DATA_END
