@@ -363,6 +363,8 @@ Unless a step says otherwise, each step is done by the task's owner on their own
 
 ### Task 10: Trigger rates, intervals and the El Niño test (M2, by Tue 27 Oct)
 
+**Status: done 20 Oct (M2).** Frozen: El Niño seasons 31% against 0.8%; intervals 6.1–10.0% (days) and 0–18.1% (seasons).
+
 **Files:**
 - Fill in: `R/03_inference.R`
 - Create: `tests/test_03_inference.R`
@@ -429,6 +431,8 @@ cat("OK test_03_inference\n")
 
 ### Task 11: Regression with dummy coding (M2, by Thu 29 Oct)
 
+**Status: done 20 Oct (M2).** Frozen: about +18 PSI per point of the index; October 59 (neutral) against 91 (index 1.8); R² 0.40.
+
 **Files:**
 - Fill in: `R/04_regression.R`
 - Create: `tests/test_04_regression.R`
@@ -477,6 +481,8 @@ cat("OK test_04_regression\n")
 - [ ] **Step 5: Commit and push** with the message "M2: Task 4 regression".
 
 ### Task 12: Chart 4 (M2, by Sat 31 Oct)
+
+**Status: done 22 Oct (M2); "2026" label fix `21d136a`.**
 
 **Files:**
 - Fill in: `R/07_figures_m2.R`
@@ -558,6 +564,8 @@ cat("OK test_05_simulate\n")
 
 ### Task 14: Sensitivity and HazeShield (M3, by Fri 30 Oct)
 
+**Status: done 22 Oct (M3).** Frozen: El Niño rate 23–46% leaving one season out; HazeShield 2015 100%, 2026 80%.
+
 **Files:**
 - Fill in: `R/06_sensitivity.R`
 - Create: `tests/test_06_sensitivity.R`
@@ -611,6 +619,8 @@ cat("OK test_06_sensitivity\n")
 
 ### Task 15: Chart 5 (M3, by Sat 31 Oct)
 
+**Status: done 22 Oct (M3); legend, spelling and to-the-cent labels tidied by M1 (`e94077e`, `03004a1`).**
+
 **Files:**
 - Fill in: `R/07_figures_m3.R`
 - Create: `tests/test_07_figures_m3.R`
@@ -635,6 +645,8 @@ cat("OK test_07_figures_m3\n")
 
 ### Task 16: Refreshes, hand-off, review and the freeze (M1 with M2, 19 Oct – 1 Nov)
 
+**Status: freeze done 1 Nov (`fb82c92`).** Data to 31 Oct 23:00, 0 missing hours; ALL OK; `audit_data.py --api 40` AUDIT PASS; a second run reproduced every output exactly. Outputs in Drive `frozen_2026-11-01` (12 files, sizes checked) and in the repo as `frozen_2026-11-01/` (`8ffc7b4`); frozen numbers copied into the Google Doc. Step 1 ran as one fetch at the freeze; the audit covers the whole range. Still open: M2's check on a second laptop (Steps 2 and 6.3).
+
 - [ ] **Step 1: Refresh the data every 2–3 days until 30 Oct.**
 
   Run: `Rscript R/run_all.R --fetch && python3 tools/audit_data.py`
@@ -642,7 +654,7 @@ cat("OK test_07_figures_m3\n")
 - [ ] **Step 2: Hand-off check (Fri 23 Oct).** On M2's laptop, M2 pulls and runs `source("R/run_all.R")`.
 
   Expected: `ALL OK`, and no files listed as changed in GitHub Desktop. M2 tells M1 if anything is unclear in the data dictionary or charts 1–3.
-- [ ] **Step 3: Review M3's simulation (Fri 30 – Sat 31 Oct).** M1 checks:
+- [x] **Step 3: Review M3's simulation (Fri 30 – Sat 31 Oct).** M1 checks:
   - `set.seed(1202)` is the first line that runs, and nothing else calls `set.seed`.
   - The `sim_season()` day-1 rate and transitions follow Task 13.
   - Events fall on days 7, 14, …, 56.
@@ -650,7 +662,7 @@ cat("OK test_07_figures_m3\n")
   - The values sit near Task 13's table.
   - The script reads `03_inference.csv`, not the snapshot.
   - Chart 5's numbers come from `sprintf()`.
-- [ ] **Step 4: Freeze (Sun 1 Nov).**
+- [x] **Step 4: Freeze (Sun 1 Nov).**
   1. Pull.
   2. In `R/00_fns_data.R`, set `DATA_END <- as.Date("2026-10-31")`.
   3. Run `Rscript R/run_all.R --fetch`.
@@ -660,7 +672,7 @@ cat("OK test_07_figures_m3\n")
   - `last_time` in `outputs/00_data_quality.csv` is `2026-10-31 23:00`.
   - `missing_hours` is 0.
   - `python3 tools/audit_data.py --api 40` prints `AUDIT PASS`.
-- [ ] **Step 5: Prove the freeze reproduces.** Copy `outputs/` aside and run `Rscript R/run_all.R --fetch` again.
+- [x] **Step 5: Prove the freeze reproduces.** Copy `outputs/` aside and run `Rscript R/run_all.R --fetch` again.
 
   Run: `diff -r <copy> outputs`
   Expected: no differences.
@@ -670,9 +682,11 @@ cat("OK test_07_figures_m3\n")
   3. M2 pulls, runs, downloads the Drive folder, and runs the comparison loop from the M2 tab.
 
   Expected: `TRUE` printed three times.
-- [ ] **Step 7: Update the frozen numbers in the Google Doc** ("What the data shows", "Numbers to quote" and every tab's "18 Oct" values), then tell M4 the numbers are final.
+- [x] **Step 7: Update the frozen numbers in the Google Doc** ("What the data shows", "Numbers to quote" and every tab's "18 Oct" values), then tell M4 the numbers are final.
 
 ### Task 17: Storyboard and script (M4, by Wed 4 Nov)
+
+**Status: full draft in `docs/script.md` and the M4 tab (`67e7641`): 884 words, about 6:50. M4 to finalise by Wed 4 Nov; M3 to check every number.**
 
 - [ ] **Step 1 (by Sun 25 Oct):** Find out what happened at the Garmin Run Singapore on 25 Oct: did it run, get shortened or get cancelled? Record the answer and a source link in the M4 tab. It becomes S1's opening line.
 - [ ] **Step 2 (by Wed 28 Oct):** Fill in the storyboard table and draft S1 and S5 under "Script draft", using 18 Oct numbers as placeholders.
