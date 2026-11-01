@@ -34,7 +34,7 @@ That raises the real question: what makes one season so much worse than another?
 [Chart 4]
 Our suspect was El Niño, the Pacific pattern that dries out the region's forests and peatlands. NOAA publishes an El Niño index in early September, before the haze season starts. Each dot here is one season. In El Niño seasons, the refund would have triggered on 31 percent of mornings. In every other season, under one percent.
 
-Could that be luck? We tested it. If El Niño made no difference, a gap this large would happen far less than once in a billion tries. So the difference is real.
+Could that be luck? We checked two ways. Day by day, a gap this large would almost never happen by chance. But bad days cluster, so the fairer test compares whole seasons. Even then, a gap this large turns up only about once in a hundred tries. The difference is real.
 
 But how sure are we about the average risk? Counting days, our interval is 6 to 10 percent. Counting seasons, which is fairer because bad days cluster, it's 0 to 18 percent. With only thirteen seasons, a single average hides more than it shows. That's why we price each kind of year separately.
 

@@ -3,7 +3,7 @@
 source("R/00_load.R")
 d <- load_daily()
 
-# Data: Aug-Nov mornings with an 8am reading (should be 1,543). August is the baseline month.
+# Data: Aug-Nov mornings with an 8am reading (1,556 at the freeze). August is the baseline month.
 a <- d[d$month %in% 8:11 & !is.na(d$central8), ]
 
 # Two models: El Nino as a number (ONI index), and as yes/no

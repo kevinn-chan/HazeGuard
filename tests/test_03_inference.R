@@ -7,6 +7,8 @@ stopifnot(
   v[["ci_season_hi"]] - v[["ci_season_lo"]] > v[["ci_day_hi"]] - v[["ci_day_lo"]],  # seasons are the honest unit
   v[["ci_season_lo"]] >= 0,
   v[["p_value_elnino"]] < 1e-10,
+  near(v[["p_value_season"]], 3 / 286, 1e-9),   # seasons as the unit: 3 of the 286 ways to pick 3 seasons
+  v[["p_value_season"]] > v[["p_value_elnino"]], # far weaker than the day-level test, as it should be
   near(v[["fair_all"]], 105 * v[["p_all"]], 1e-9),
   near(v[["p_any8_iid"]], 1 - (1 - v[["p_all"]])^8, 1e-9)
 )

@@ -14,6 +14,7 @@
 "ci_season_lo",0
 "ci_season_hi",0.1809882864883
 "p_value_elnino",4.73332941316546e-40
+"p_value_season",0.0104895104895105
 "fair_all",8.2093316519546
 "fair_elnino",32.7049180327869
 "fair_normal",0.860655737704918
