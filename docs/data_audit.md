@@ -17,6 +17,8 @@ It ends with `AUDIT PASS`, or with `AUDIT FAIL: <n> problems` and a list of what
 
 ## Results on 18 Oct 2026 (data to 18 Oct, 11:00 SGT)
 
+Rerun at the 1 Nov freeze (data to 31 Oct 23:00): AUDIT PASS on all nine checks, 110,327 hours, 4,597 days, 61 live files.
+
 ```
 1 history labels: OK (108,864 rows, 2014-04-01 01:00:00 to 2026-09-01 00:00:00, 4 relabelled)
 2 live files: OK (48 files, 1,140 hours)
@@ -56,11 +58,11 @@ The audit therefore fails check 9 only when a difference could change a result:
 
 **What this means for 2026:** September and October 2026 come from the live API, because the history file stops at 1 Sep. That is the right source for the product: HazeGuard pays on the 08:00 reading NEA publishes live on event morning, which is exactly what the API serves. A later revised release could still move a few hours by a few PSI.
 
-Eight 2026 mornings sit within 7 PSI of the line, the largest difference seen between NEA's two releases:
+At the freeze (data to 31 Oct), nine 2026 mornings sit within 7 PSI of the line, the largest difference seen between NEA's two releases:
 - **Triggered:** 4 Sep (103), 10 Sep (105), 16 Sep (102), 4 Oct (102).
-- **Not triggered:** 7 Sep (94), 11 Sep (96), 18 Sep (97), 3 Oct (97).
+- **Not triggered:** 7 Sep (94), 11 Sep (96), 18 Sep (97), 3 Oct (97), 22 Oct (95).
 
-Mention this in the limits: against a revised release, 2026's 24 trigger days could read as anything from 20 to 28.
+Mention this in the limits: against a revised release, 2026's 29 trigger days could read as anything from 25 to 34.
 
 ## What the audit cannot catch
 
