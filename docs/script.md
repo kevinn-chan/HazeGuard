@@ -59,7 +59,7 @@ To price HazeGuard, we simulated ten thousand seasons of eight weekly events in 
 
 In a normal year, that's 87 cents. In an El Niño year, it's 33 dollars 25, because at least one of the eight events pays out in 95 percent of El Niño seasons.
 
-An organiser also has to survive a bad year, so we set a safe price that covers 95 percent of simulated seasons. Treat every year alike and the safe price is 26 dollars 25. Model El Niño separately and it's 52 dollars 50: double. Price every year the same and you're short half the money in a bad year.
+An organiser also has to survive a bad year, so we set a safe price that covers 95 percent of simulated seasons. Ignore El Niño and runs, and that price is 26 dollars 25. Allow for both and it's 52 dollars 50: double. Price every year the same and you're short half the money in a bad year.
 
 [Three-day slide]
 Runs matter too. The chance of three hazy event days in a row is 3.2 percent with the runs built in, against 0.05 percent if days were independent.
