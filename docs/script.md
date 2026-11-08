@@ -37,11 +37,11 @@ Our recommendation has two different price points based on the kind of year it i
 Now, Kevin will show you how the data got us there.
 
 ## S2: When and how haze hits (Kevin, 1 Minute, 45 Seconds)
-*[Slide 4]*
+*[Slide 4: 00_data_quality.csv]*
 
 To better understand when the Haze worsens, we extracted the hourly PSI reading NEA has published since April 2014. This amounted to over one hundred and ten thousand hours with no data point missing.
 
-*[Slide 5: 00_data_quality.csv]*
+*[Slide 5]*
 
 We then plotted a graph with each blue dot representing a day when some part of Singapore registered a PSI reading above 100. Looking at the data, two years stood out. 2015 where 46 such days occurred and this year with 39 such occurrences. Meanwhile in other years, there were 9 or fewer such days in September and October.
 
