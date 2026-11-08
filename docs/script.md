@@ -130,5 +130,5 @@ In conclusion, looking for the best way to protect your event day from the haze?
   - PSI readings: NEA via data.gov.sg (historical 24-hr PSI and the real-time API), frozen to 31 Oct 2026.
   - El Niño index: NOAA Climate Prediction Center, Oceanic Niño Index.
   - Decathlon Kiprun Half Marathon shortened to 10 km: Mothership, September 2026 (link in the M1 tab references).
-  - Garmin Run, 25 Oct, every race cut to a 10 km fun run: from Jovan's research. M4 to add the source link here before 4 Nov.
+  - Garmin Run, 25 Oct, every race cut to a 10 km fun run: from Jovan's research. Source: Sport Plus News Desk, 26 Oct 2026, https://sportplus.sg/blogs/news/garmin-run-singapore-2026-concludes-with-unbroken-spirit-at-marina-barrage-amid-regional-haze-challenge
   - HazeShield pays from 20 bad days: Swiss Re HazeShield brochure (link in the M1 tab references).
